@@ -18,7 +18,7 @@ export async function query<T>(sql: string, params: any[] = []): Promise<T[]> {
     return rows as T[];
 }
 
-export async function closeConnection(): Promise<void> {
+export async function closeConnection(): Promise<void> { //Must close the pool to prevent hanging after getting the results.
     await pool.end();
     console.log("Pool connection closed.");
 }
