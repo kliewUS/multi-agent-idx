@@ -10,11 +10,12 @@ const pool = mysql.createPool({
     connectionLimit: 10,
     queueLimit: 0,
 });
-console.log(`Host: ${process.env.MYSQL_HOST}`);
-console.log(`User: ${process.env.MYSQL_USER}`);
-console.log(`Password: ${process.env.MYSQL_PASSWORD}`);
-console.log(`DB: ${process.env.MYSQL_DATABASE}`);
 export async function query(sql, params = []) {
     const [rows] = await pool.execute(sql, params);
+    console.log(`Results: ${rows}`);
     return rows;
+}
+export async function closeConnection() {
+    await pool.end();
+    console.log("Pool connection closed.");
 }

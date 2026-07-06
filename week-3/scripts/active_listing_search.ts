@@ -1,6 +1,6 @@
 import { query } from "./mysql_conn.js";
 
-export async function searchActiveListings(filters: PropertyFilters, page = 1, //Need to make a new PropertFilters and ListingRow class
+export async function searchActiveListings(filters: PropertyFilters, page = 1, 
 limit = 10) {
     const offset = (page - 1) * limit;
     let sql = `
@@ -53,6 +53,8 @@ limit = 10) {
     }
     
     sql += " ORDER BY L_SystemPrice ASC LIMIT ? OFFSET ?";
-    params.push(limit, offset);
+
+    // params.push(limit, offset);
+    params.push(limit.toString(), offset.toString());
     return query<ListingRow>(sql, params);
 }

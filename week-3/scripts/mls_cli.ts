@@ -2,6 +2,7 @@ import { searchActiveListings } from "./active_listing_search.js";
 import { getSoldComps } from "./sold_comp.js";
 import { parsePropertyQuery } from "../../week-2/scripts/nlp_parser.js";
 import * as readline from 'node:readline/promises';
+import { closeConnection } from "./mysql_conn.js";
 
 export async function main(){
     
@@ -36,15 +37,29 @@ export async function main(){
         let results;
         if (Number(options) == 1) {
             results = await searchActiveListings(filters);
+            if (results.length == 0){
+                console.log("No active listings found matching those filters.");
+            } else {
+                console.log(`\n Found ${results.length} Active Listings:\n`)
+                console.table(results);
+            }
         } else if (Number(options) == 2){
             if(filters.city){
                 results = await getSoldComps(filters.city);
+                if (results.length == 0){
+                    console.log("No sold listings found matching those filters.");
+                } else {
+                    console.log(`\n Found ${results.length} Sold Listings:\n`)
+                    console.table(results);
+                }
             } else {
                 console.log("City was not specified in Sold Listing search. Returning no results.")
             }
         } else {
             console.log("Invalid Option");
         }
+
+        await closeConnection();
 
         return results;
         

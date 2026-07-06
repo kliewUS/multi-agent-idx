@@ -1,5 +1,5 @@
 import { query } from "./mysql_conn.js";
-export async function searchActiveListings(filters, page = 1, //Need to make a new PropertFilters and ListingRow class
+export async function searchActiveListings(filters, page = 1,
 limit = 10) {
     const offset = (page - 1) * limit;
     let sql = `
@@ -51,6 +51,7 @@ limit = 10) {
         params.push(filters.maxhoaPrice);
     }
     sql += " ORDER BY L_SystemPrice ASC LIMIT ? OFFSET ?";
-    params.push(limit, offset);
+    // params.push(limit, offset);
+    params.push(limit.toString(), offset.toString()); //Convert limit and offset to string due to MySQL2 bug: Incorrect arguments to mysqld_stmt_execute
     return query(sql, params);
 }
