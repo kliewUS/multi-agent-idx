@@ -16,3 +16,18 @@ export async function getSoldComps(city, months = 12) {
     `;
     return query(sql, [city, months]); //Need to make a new SoldRow class.
 }
+const json = process.argv[2];
+let queryFilter;
+try {
+    queryFilter = JSON.parse(json);
+}
+catch (error) {
+    if (error instanceof Error) {
+        console.error("Invalue JSON string passed: ", error.message);
+    }
+    else {
+        console.error("An unknown error occurred", error);
+    }
+}
+const results = getSoldComps(queryFilter.city);
+console.table(results);

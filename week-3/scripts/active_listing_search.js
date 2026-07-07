@@ -1,6 +1,5 @@
 import { query } from "./mysql_conn.js";
-export async function searchActiveListings(filters, page = 1,
-limit = 10) {
+export async function searchActiveListings(filters, page = 1, limit = 10) {
     const offset = (page - 1) * limit;
     let sql = `
     SELECT
@@ -52,6 +51,21 @@ limit = 10) {
     }
     sql += " ORDER BY L_SystemPrice ASC LIMIT ? OFFSET ?";
     // params.push(limit, offset);
-    params.push(limit.toString(), offset.toString()); //Convert limit and offset to string due to MySQL2 bug: Incorrect arguments to mysqld_stmt_execute
+    params.push(limit.toString(), offset.toString());
     return query(sql, params);
 }
+const json = process.argv[2];
+let propertyFilter;
+try {
+    propertyFilter = JSON.parse(json);
+}
+catch (error) {
+    if (error instanceof Error) {
+        console.error("Invalue JSON string passed: ", error.message);
+    }
+    else {
+        console.error("An unknown error occurred", error);
+    }
+}
+const results = searchActiveListings(propertyFilter);
+console.table(results);

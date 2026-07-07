@@ -29,7 +29,20 @@ export async function main() {
         let options = await rl.question("Choose an option (1 - Active Listing Search, 2 - Sold Listings Search)\n");
         let results;
         if (Number(options) == 1) {
-            results = await searchActiveListings(filters);
+            let pageNum = await rl.question("Specfic a page number: \n");
+            let limit = await rl.question("Specfic a limit: \n");
+            if (!await isPositiveNumber(pageNum) && !await isPositiveNumber(limit)) {
+                results = await searchActiveListings(filters);
+            }
+            else if (!await isPositiveNumber(limit)) {
+                results = await searchActiveListings(filters, Number(pageNum));
+            }
+            else if (!await isPositiveNumber(pageNum)) {
+                results = await searchActiveListings(filters, 1, Number(limit));
+            }
+            else {
+                results = await searchActiveListings(filters, Number(pageNum), Number(limit));
+            }
             if (results.length == 0) {
                 console.log("No active listings found matching those filters.");
             }
@@ -57,10 +70,15 @@ export async function main() {
             console.log("Invalid Option");
         }
         await closeConnection();
+        // For Week 4, we may need to rethink this. 
+        // Since we will to make a conversation and let the agent ask follow-up questions, remembering preference in a session, and refine results iteratively.
         return results;
     }
     finally {
         rl.close();
     }
+}
+export async function isPositiveNumber(input) {
+    return typeof input === 'number' && !isNaN(input) && input > 0;
 }
 main();

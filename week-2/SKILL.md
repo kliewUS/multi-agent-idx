@@ -10,10 +10,8 @@ tools: execute, read
 Execute the NLP parser script and format the resulting data for the user.
 
 ## Step 1: Execution Order
-You must run these following commands in order. Wait for the first command before executing the second command.
-
-1. `tsc scripts/nlp_parser.ts`
-2. `node scripts/nlp_parser.js`
+Launch the NLP Parser using the following command:
+1. `node scripts/nlp_parser.js`
 
 ## Step 2: Output Parsing & Formatting
 Monitor the terminal output from the second command. Locate any resolved **Promise objects** or JSON-like object outputs. For each object found, intercept it and format it exactly as follows:

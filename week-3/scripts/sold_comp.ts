@@ -1,5 +1,23 @@
 import { query } from "./mysql_conn.js";
 
+export interface SoldRow {
+    ListingKey: BigInt;
+    UnparsedAddress: string;
+    City: string;
+    CloseDate: string;
+    ClosePrice: number;
+    OriginalListPrice: number;
+    ListPrice: number;
+    BedroomsTotal: number;   
+    BathroomsTotalInteger: number;   
+    LivingArea: number;   
+    PropertyType: string;   
+    YearBuilt: number;   
+    ListAgentFullName: string;   
+    ListOfficeName: string;   
+    BuyerOfficeName: string;   
+}
+
 export async function getSoldComps(city: string, months = 12) {
     const sql = `
         SELECT
@@ -16,4 +34,24 @@ export async function getSoldComps(city: string, months = 12) {
         LIMIT 50
     `;
     return query<SoldRow>(sql, [city, months]); //Need to make a new SoldRow class.
+}
+
+const json = process.argv[2];
+
+let queryFilter;
+
+try {
+    queryFilter = JSON.parse(json);
+} catch (error){
+    if (error instanceof Error){
+        console.error("Invalue JSON string passed: ", error.message)
+    } else {
+        console.error("An unknown error occurred", error)
+    }
+}
+
+if (queryFilter.city){
+    const results = getSoldComps(queryFilter.city);
+
+    console.table(results);
 }

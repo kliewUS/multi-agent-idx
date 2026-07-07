@@ -12,7 +12,6 @@ const pool = mysql.createPool({
 });
 export async function query(sql, params = []) {
     const [rows] = await pool.execute(sql, params);
-    console.log(`Results: ${rows}`);
     return rows;
 }
 export async function closeConnection() {

@@ -1,5 +1,44 @@
 import { query } from "./mysql_conn.js";
 
+export interface ListingRow {
+  L_ListingID: string;
+  L_DisplayId: string;
+  L_Address: string;
+  L_City: string;
+  L_Zip: string;
+  price: number;
+  beds: number;
+  baths: number; //Decimal converts to string to prevent loss of precision.
+  sqft: number;
+  type: string;
+  status: string;
+  lat: number;
+  lng: number;
+  YearBuilt: number;
+  AssociationFee: number;
+  DaysOnMarket: string;
+  PoolPrivateYN: string;
+  ViewYN: string;
+  FireplaceYN: string;
+  PhotoCount: number;
+  LA1_UserFirstName: string;
+  LA1_UserLastName: string;
+  LO1_OrganizationName: string;
+} 
+
+export interface PropertyFilters {
+    city: string;
+    maxPrice: number;
+    beds: number;
+    baths: number;
+    sqft: number;
+    type: string;
+    pool: string;
+    hasView: string;   
+    maxhoaPrice: number;   
+}
+
+
 export async function searchActiveListings(filters: PropertyFilters, page = 1, 
 limit = 10) {
     const offset = (page - 1) * limit;
@@ -58,3 +97,21 @@ limit = 10) {
     params.push(limit.toString(), offset.toString());
     return query<ListingRow>(sql, params);
 }
+
+const json = process.argv[2];
+
+let propertyFilter;
+
+try {
+    propertyFilter = JSON.parse(json);
+} catch (error){
+    if (error instanceof Error){
+        console.error("Invalue JSON string passed: ", error.message)
+    } else {
+        console.error("An unknown error occurred", error)
+    }
+}
+
+const results = searchActiveListings(propertyFilter);
+
+console.table(results);
