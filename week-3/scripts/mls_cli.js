@@ -1,3 +1,4 @@
+// NOTE: For testing purposes, this is not needed.
 import { searchActiveListings } from "./active_listing_search.js";
 import { getSoldComps } from "./sold_comp.js";
 import { parsePropertyQuery } from "../../week-2/scripts/nlp_parser.js";

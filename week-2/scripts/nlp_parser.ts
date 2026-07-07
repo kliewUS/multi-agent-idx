@@ -63,6 +63,12 @@ export async function parsePropertyQuery(query: string) {
     };
 }
 
-const result = parsePropertyQuery(process.argv[2]);
+const query = process.argv[2];
 
-console.log(result);
+console.log(query);
+
+if(query){
+    const result = parsePropertyQuery(query);
+
+    console.log(result);
+}

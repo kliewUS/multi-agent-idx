@@ -1,4 +1,4 @@
-import { parsePropertyQuery } from "./nlp_parser";
+import { parsePropertyQuery } from "./nlp_parser.js";
 const testQueries = [
     "Show me 3-bedroom condos in Irvine under $1.5M with a pool.",
     "Find me a 4 bed condo in Pasadena under $1.2M with a pool and a view.",
@@ -19,7 +19,7 @@ const testQueries = [
     "Townhomes in San Jose with 5+ bedrooms and 4.5+ bathrooms",
     "2 bed 1 bath cabins in Big Bear minimum 900 sqft",
     "Manufactured homes in Bakersfield with 3 beds, 2 baths, and 1,500 sq ft",
-    "Timeshares in San Francisco with a minimum of 2 beds, 3.5 baths, and 2,500 sq ft",
+    "Timeshares in San Francisco with a minimum of 2 beds, 3.5 baths, and 2,500 sq ft"
 ];
 for (var query of testQueries) {
     const parsedQuery = parsePropertyQuery(query);

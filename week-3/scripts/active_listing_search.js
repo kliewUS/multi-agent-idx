@@ -1,4 +1,4 @@
-import { query } from "./mysql_conn.js";
+import { closeConnection, query } from "./mysql_conn.js";
 export async function searchActiveListings(filters, page = 1, limit = 10) {
     const offset = (page - 1) * limit;
     let sql = `
@@ -55,8 +55,10 @@ export async function searchActiveListings(filters, page = 1, limit = 10) {
     return query(sql, params);
 }
 const json = process.argv[2];
+const pageNum = process.argv[3] ? Number(process.argv[3]) : 1;
+const limit = process.argv[4] ? Number(process.argv[4]) : 10;
 let propertyFilter;
-try {
+try { //May need to refactor this.
     propertyFilter = JSON.parse(json);
 }
 catch (error) {
@@ -67,5 +69,6 @@ catch (error) {
         console.error("An unknown error occurred", error);
     }
 }
-const results = searchActiveListings(propertyFilter);
-console.table(results);
+const results = await searchActiveListings(propertyFilter, pageNum, limit);
+console.table(results, ['L_Address', 'L_City', 'L_Zip', 'price', 'beds', 'baths', 'sqft', 'type', 'lat', 'lng', 'YearBuilt', 'AssociationFee', 'DaysOnMarket']);
+await closeConnection();

@@ -66,9 +66,9 @@ Key columns:
 ## Objectives
 
 ### Step 1: Query Extraction & Execution
-1. Call the NLP Parser skill to extract criteria into a structured filter object.
-2. Default to `page: 1` and `limit: 10` unless the user specifies otherwise.
-3. Execute the corresponding script by passing the filters, page, and limit as a stringified JSON payload argument.
+1. Call the NLP Parser skill to extract criteria into a structured filter Promise object.
+2. Default to first page and limit to 10 rows unless the user specifies otherwise.
+3. Execute the corresponding script by passing the filters as a stringified JSON payload argument and page and limit as integers.
 
 #### For Active Listing Search:
 Execute the command:

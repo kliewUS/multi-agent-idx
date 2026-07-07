@@ -1,4 +1,4 @@
-import { query } from "./mysql_conn.js";
+import { closeConnection, query } from "./mysql_conn.js";
 
 export interface SoldRow {
     ListingKey: BigInt;
@@ -51,7 +51,14 @@ try {
 }
 
 if (queryFilter.city){
-    const results = getSoldComps(queryFilter.city);
+    const results = await getSoldComps(queryFilter.city);
 
-    console.table(results);
+    console.table(results, [
+        'UnparsedAddress', 'City', 'CloseDate', 
+        'ClosePrice', 'OriginalListPrice', 'ListPrice', 
+        'DaysOnMarket', 'BedroomsTotal', 'BathroomsTotalInteger', 
+        'LivingArea', 'PropertySubType', 'YearBuilt'
+    ]);
+
+    await closeConnection(); 
 }

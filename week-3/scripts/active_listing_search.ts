@@ -1,4 +1,4 @@
-import { query } from "./mysql_conn.js";
+import { closeConnection, query } from "./mysql_conn.js";
 
 export interface ListingRow {
   L_ListingID: string;
@@ -26,7 +26,7 @@ export interface ListingRow {
   LO1_OrganizationName: string;
 } 
 
-export interface PropertyFilters {
+export interface PropertyFilters { //Move this to another class?
     city: string;
     maxPrice: number;
     beds: number;
@@ -99,10 +99,12 @@ limit = 10) {
 }
 
 const json = process.argv[2];
+const pageNum = process.argv[3] ? Number(process.argv[3]) : 1;
+const limit = process.argv[4] ? Number(process.argv[4]) : 10;
 
 let propertyFilter;
 
-try {
+try { //May need to refactor this.
     propertyFilter = JSON.parse(json);
 } catch (error){
     if (error instanceof Error){
@@ -112,6 +114,8 @@ try {
     }
 }
 
-const results = searchActiveListings(propertyFilter);
+const results = await searchActiveListings(propertyFilter, pageNum, limit);
 
-console.table(results);
+console.table(results, ['L_Address', 'L_City', 'L_Zip', 'price', 'beds', 'baths', 'sqft', 'type', 'lat', 'lng', 'YearBuilt', 'AssociationFee', 'DaysOnMarket']);
+
+await closeConnection(); 

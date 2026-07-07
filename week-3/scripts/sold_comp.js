@@ -1,4 +1,4 @@
-import { query } from "./mysql_conn.js";
+import { closeConnection, query } from "./mysql_conn.js";
 export async function getSoldComps(city, months = 12) {
     const sql = `
         SELECT
@@ -29,5 +29,13 @@ catch (error) {
         console.error("An unknown error occurred", error);
     }
 }
-const results = getSoldComps(queryFilter.city);
-console.table(results);
+if (queryFilter.city) {
+    const results = await getSoldComps(queryFilter.city);
+    console.table(results, [
+        'UnparsedAddress', 'City', 'CloseDate',
+        'ClosePrice', 'OriginalListPrice', 'ListPrice',
+        'DaysOnMarket', 'BedroomsTotal', 'BathroomsTotalInteger',
+        'LivingArea', 'PropertySubType', 'YearBuilt'
+    ]);
+    await closeConnection();
+}
