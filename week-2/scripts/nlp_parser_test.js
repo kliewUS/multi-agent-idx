@@ -22,7 +22,7 @@ const testQueries = [
     "Timeshares in San Francisco with a minimum of 2 beds, 3.5 baths, and 2,500 sq ft"
 ];
 for (var query of testQueries) {
-    const parsedQuery = parsePropertyQuery(query);
+    const parsedQuery = await parsePropertyQuery(query);
     console.log("Query: " + query);
     console.log("Parsed Query: ");
     console.log(parsedQuery);

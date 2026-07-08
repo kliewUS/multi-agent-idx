@@ -1,11 +1,11 @@
 ---
-name: mls-listing-search
+name: mls-search
 description: Parses query into filters object using nlp-parser, sends an SQL query using these filters, and returns formatted property cards to the user.
 metadata:
   openclaw:
     requires:
       bins: ["node"]
-      env: ["MYSQL_HOST", "MYSQL_USER", "MYSQL_PASSWORD", "MYSQL_DATABASE"]
+      env: ["MYSQL_HOST", "MYSQL_USER", "MYSQL_DATABASE"]
 tools: execute, read
 ---
 
@@ -66,17 +66,28 @@ Key columns:
 ## Objectives
 
 ### Step 1: Query Extraction & Execution
-1. Call the NLP Parser skill to extract criteria into a structured filter Promise object.
-2. Default to first page and limit to 10 rows unless the user specifies otherwise.
-3. Execute the corresponding script by passing the filters as a stringified JSON payload argument and page and limit as integers.
+1. Call the NLP Parser skill to extract criteria into a stringified filter JSON object.
+2. Determine the search type requested by the user (Active vs. Sold/Comps) and execute *only* the matching command below.
 
-#### For Active Listing Search:
-Execute the command:
-`node scripts/active_listing_search.js '[JSON_STRING_OBJECT]'`
+#### Option A: Active Listing Search
+*Use this when looking for current properties on the market.*
 
-#### For Sold/Comps Search:
-Execute the command:
-`node scripts/sold_comp.js '[JSON_STRING_OBJECT]'`
+* **Arguments:**
+  * `JSON_STRING_OBJECT`: (Required) The stringified filter JSON from the NLP Parser.
+  * `PAGE_NUMBER`: (Optional) Integer. Default to `1` unless the user explicitly specifies a different page.
+  * `LIMIT`: (Optional) Integer. Default to `10` unless the user explicitly specifies a different limit.
+* **Command Syntax:**
+  `node scripts/active_listing_search.js '[JSON_STRING_OBJECT]' [PAGE_NUMBER] [LIMIT]`
+
+#### Option B: Sold/Comps Search
+*Use this when looking for historical sold data or comparable properties.*
+
+* **CRITICAL CONSTRAINT:** This script *only* accepts the filter object and months. Do not append pagination or limit variables, as it will break execution.
+* **Arguments:**
+  * `JSON_STRING_OBJECT`: (Required) The stringified filter JSON from the NLP Parser.
+  * `MONTHS`: (Optional) Integer. The lookback period specified by the user. If not specified, omit this argument or pass nothing.
+* **Command Syntax:**
+  `node scripts/sold_comp.js '[JSON_STRING_OBJECT]' [MONTHS]`
 
 ---
 

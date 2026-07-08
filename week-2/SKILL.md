@@ -4,28 +4,27 @@ description: This skill parse free-text real estate queries into structured filt
 tools: execute, read
 ---
 
-# Run and Fomrat NLP Parser Output
+# NLP Parser
 
 ## Objectives
-Execute the NLP parser script and format the resulting data for the user.
+Execute the NLP parser script on a user's natural language query, intercept its JSON output, and format the resulting metadata cleanly for the user.
 
 ## Step 1: Execution Order
-Launch the NLP Parser using the following command:
-1. `node scripts/nlp_parser.js`
+When a user provides a natural language search query, pass it as a literal string argument to the script. 
+
+**Command:**
+`node scripts/nlp_parser.js '[QUERY STRING]'`
 
 ## Step 2: Output Parsing & Formatting
-Monitor the terminal output from the second command. Locate any resolved **Promise objects** or JSON-like object outputs. For each object found, intercept it and format it exactly as follows:
+Monitor the terminal output. Locate any resolved **Promise objects** or JSON-like object outputs. For each object found, intercept it and format it exactly as follows:
 
-1. Original Query: [Insert query string that trigger the promise]
-2. Data breakdown:
-    - [Key 1]: [Value 1]
-    - [Key 2]: [Value 2]
-    - and so on...
-3. If there's a null value in the output, omit it from the output print-out.
-4. Separator: Print a horizontal rule (`---`) after each object.
+1. Print the exact query string that triggered the script.
+2. List every non-null key-value pair as a bullet point.
+3. If a key has a value of `null`, omit it from the final print-out entirely.
+4. Print a horizontal rule (`---`) immediately following the data breakdown.
 
 ### Example of Desired Output:
-**Original Query:** "Show me 3-bedroom condos in Irvine under $1.5M with a pool."
+**Original Query:** "3+ bed 2.5+ bath condos in Santa Barbara under $1.5M with at least 1800 sqft, a pool, nice view, and HOA under 500"
 - city: 'Santa Barbara'
 - maxPrice: 1500000
 - beds: 3

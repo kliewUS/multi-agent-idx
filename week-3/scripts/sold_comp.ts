@@ -37,6 +37,7 @@ export async function getSoldComps(city: string, months = 12) {
 }
 
 const json = process.argv[2];
+const months = process.argv[3] ? Number(process.argv[3]) : 12;
 
 let queryFilter;
 
@@ -51,7 +52,7 @@ try {
 }
 
 if (queryFilter.city){
-    const results = await getSoldComps(queryFilter.city);
+    const results = await getSoldComps(queryFilter.city, months);
 
     console.table(results, [
         'UnparsedAddress', 'City', 'CloseDate', 

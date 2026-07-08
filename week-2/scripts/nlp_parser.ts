@@ -65,10 +65,8 @@ export async function parsePropertyQuery(query: string) {
 
 const query = process.argv[2];
 
-console.log(query);
-
 if(query){
-    const result = parsePropertyQuery(query);
+    const result = await parsePropertyQuery(query);
 
-    console.log(result);
+    console.log(JSON.stringify(result));
 }

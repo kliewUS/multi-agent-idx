@@ -25,7 +25,7 @@ const testQueries = [
 
 for (var query of testQueries) {
 
-    const parsedQuery = parsePropertyQuery(query);
+    const parsedQuery = await parsePropertyQuery(query);
 
     console.log("Query: " + query);
     console.log("Parsed Query: ")
