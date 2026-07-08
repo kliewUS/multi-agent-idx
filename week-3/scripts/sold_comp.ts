@@ -31,7 +31,7 @@ export async function getSoldComps(city: string, months = 12) {
             AND CloseDate >= DATE_SUB(CURDATE(), INTERVAL ? MONTH)
             AND PropertyType = "Residential"
         ORDER BY CloseDate DESC
-        LIMIT 50
+        LIMIT 10
     `;
     return query<SoldRow>(sql, [city, months]); //Need to make a new SoldRow class.
 }

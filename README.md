@@ -14,5 +14,5 @@ Setup:
 - Week 0 - Successfully setup Openclaw and integrated into WhatsApp. Results can be seen in the week-0 folder. Additionally, I was able to successfully setup the MySQL Database and import both datasets into the database.
 - Week 1 - Devised and documentated workflow diagram of how user queries flow from WhatsApp through OpenClaw skills to MLS diagram. Successfully ran test skill using test tool provided in handbook.
 - Week 2 - Built and successfully test NLP Parser against 20 test queries. Was able to successfully get a NLP Parser response back from the Agent via WhatsApp.
-- Week 3 - TBA
+- Week 3 - Built a functional MLS Search that acceps NLP filter objects from Week 2, queries rets_property and/or california_sold, and returns formatted property cards.
 - Week 4 - TBA
