@@ -1,4 +1,5 @@
-import { getSession, updateSession } from "../../week-4/scripts/mls_session.js";
+// import { getSession, updateSession, UserSession } from "../../week-4/scripts/mls_session.js";
+import { getSession, updateSession } from "./mls_session.js";
 import { query } from "./mysql_conn.js";
 export async function searchActiveListings(filters, page = 1, limit = 10) {
     const offset = (page - 1) * limit;

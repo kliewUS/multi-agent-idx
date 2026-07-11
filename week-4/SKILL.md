@@ -4,7 +4,7 @@ description: Parses query into filters object using nlp-parser, sends an SQL que
 metadata:
   openclaw:
     requires:
-      bins: ["node"]
+      bins: ["node", "curl"]
       env: ["MYSQL_HOST", "MYSQL_USER", "MYSQL_DATABASE"]
 tools: execute, read
 ---
@@ -12,7 +12,7 @@ tools: execute, read
 # MLS Listing Search
 You are a real estate search agent with access to two MySQL tables in the `idx_exchange` database detailed below. 
 
-Depending on whether the user wants Active or Sold listings, you will parse their intent, format the extracted criteria into a JSON arguments object, and execute the corresponding CLI script.
+You will parse their intent, format the extracted criteria into a JSON arguments object, and execute the corresponding CLI script.
 
 ## Tables
 ### rets_property - Active Listings
@@ -66,35 +66,47 @@ Key columns:
 ## Objectives
 
 ### Step 1: Query Extraction & Execution
-1. Call the NLP Parser skill to extract criteria into a stringified filter JSON object.
-2. Determine the search type requested by the user (Active vs. Sold/Comps) and execute *only* the matching command below.
+1. Call your internal NLP parser to isolate structured fields from the user's latest incoming message into a JSON filter object.
+2. Check if the server is running using `curl -I http://localhost:3000`. If server is not running, start up the server using the following command: `node scripts\server.js`.
+3. Formulate and execute the cURL command targeting the long-running Express server.
 
-#### Option A: Active Listing Search
-*Use this when looking for current properties on the market.*
+#### Express Endpoint Execution
 
 * **Arguments:**
-  * `JSON_STRING_OBJECT`: (Required) The stringified filter JSON from the NLP Parser.
-  * `PAGE_NUMBER`: (Optional) Integer. Default to `1` unless the user explicitly specifies a different page.
-  * `LIMIT`: (Optional) Integer. Default to `10` unless the user explicitly specifies a different limit.
-* **Command Syntax:**
-  `node scripts/active_listing_search.js '[JSON_STRING_OBJECT]' [PAGE_NUMBER] [LIMIT]`
+  * `USER_ID`: (Required) String containing the user's identifier (e.g., their WhatsApp ID or phone number) to track their `conversationStep` state machine.
+  * `FILTER_JSON`: (Required) The extracted JSON filter keys from the NLP parser. Pass an empty object `{}` if no new criteria were found in the current turn.
+  * `PAGE_NUMBER`: (Optional) Integer. Defaults to `1`.
+  * `LIMIT`: (Optional) Integer. Defaults to `10`.
 
-#### Option B: Sold/Comps Search
-*Use this when looking for historical sold data or comparable properties.*
-
-* **CRITICAL CONSTRAINT:** This script *only* accepts the filter object and months. Do not append pagination or limit variables, as it will break execution.
-* **Arguments:**
-  * `JSON_STRING_OBJECT`: (Required) The stringified filter JSON from the NLP Parser.
-  * `MONTHS`: (Optional) Integer. The lookback period specified by the user. If not specified, omit this argument or pass nothing.
 * **Command Syntax:**
-  `node scripts/sold_comp.js '[JSON_STRING_OBJECT]' [MONTHS]`
+  ```bash
+  curl -s -X POST http://localhost:3000/api/search \
+    -H "Content-Type: application/json" \
+    -d '{"userId": "[USER_ID]", "incomingFilters": [FILTER_JSON], "pageNum": [PAGE_NUMBER], "limit": [LIMIT]}'
 
 ---
 
 ## Step 2: Output Parsing & Formatting
+
+### Branch A: Response is "NEED_INFO"
+If the server response contains `"status": "NEED_INFO"`, the state machine is missing required fields to perform a search.
+  - Do not attempt to query or display listings.
+  - Extract the value of the prompt key from the JSON response and return it directly to the user to fill the slot.
+
+Example Server Response:
+```json
+{
+  "status": "NEED_INFO",
+  "missingField": "maxPrice",
+  "prompt": "What is your maximum budget for this property?"
+}
+```
+
+### Branch B: Response is "SUCCESS"
+
 Parse the JSON array returned by the script execution and format every row using the exact templates below.
 
-### Response Guidelines
+### Output Response Guidelines (For Branch B)
 - Format all currency values using commas and dollar signs (e.g., `$1,000,000`).
 - Reformat `YYYY-MM-DD` string dates into "Month Day, Year" format (e.g., `June 6, 2026`).
 - If a variable is missing or null, omit that property line or metric entirely. Ensure there are no dangling pipe characters (`|`) or empty blank lines.
@@ -107,15 +119,6 @@ Format exactly as follows:
   - [L_Address], [L_City], CA [L_Zip]
   - [beds] Beds | [baths] Baths | [sqft] sq ft
 
-### Template for Sold Listing Search
-Calculate the price difference: `Difference = ClosePrice - OriginalListPrice`.
-Format exactly as follows based on that calculation:
-  - [YearBuilt] [PropertySubType]
-  - Sold on [ClosingDate] for $[ClosePrice] in [DaysOnMarket] days! 
-  - [If Difference > 0: "$[Difference] over asking price!"] [If Difference < 0: "$[Absolute value of Difference] under asking price!"] [If Difference == 0: "Sold at asking price!"]
-  - [UnparsedAddress], [City], CA
-  - [BedroomsTotal] Beds | [BathroomsTotalInteger] Baths | [Living Area] sq ft
-
 ### Example of Desired Output:
 
 #### Active Listing Search:
@@ -123,15 +126,6 @@ Format exactly as follows based on that calculation:
   - $735,000 | For Sale
   - 44 Fallbrook, Irving, CA 92604
   - 3 Beds | 2 Baths | 1084 sq ft
-
----
-
-#### Sold Listing Search:
-  - 2005 Single Family Residence
-  - Sold on June 6th, 2026 for $3,180,000 in 12 days! 
-  - $218,000 over asking price!
-  - 25 Twiggs, Irvine, CA
-  - 4 Beds | 5 Baths | 4000 sq ft
 
 ---
 

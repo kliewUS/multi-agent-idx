@@ -1,5 +1,5 @@
-import express from "express";
-import { getSession, updateSession, UserSession } from "../../week-4/scripts/mls_session.js";
+// import { getSession, updateSession, UserSession } from "../../week-4/scripts/mls_session.js";
+import { getSession, updateSession, UserSession } from "./mls_session.js";
 import { query } from "./mysql_conn.js";
 
 export interface ListingRow {
