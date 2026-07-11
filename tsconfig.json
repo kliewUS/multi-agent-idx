@@ -3,4 +3,6 @@
         "types": ["node"]
     },
     "include": ["**/*.ts", "*.ts"], // Add every .ts file in the root directory
+    "module": "commonjs",
+    "esModuleInterop": true
 }
