@@ -4,6 +4,7 @@ import { search } from "../../week-3/scripts/active_listing_search.js";
 const app = express();
 app.use(express.json());
 
+// Takes in userId, incomingFilters, pageNum, limit to perform a property search using a POST api endpoint.
 app.post("/api/search", async (req, res) => {
     try {
         const { userId, incomingFilters, pageNum = 1, limit = 10 } = req.body;

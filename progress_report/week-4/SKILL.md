@@ -66,15 +66,15 @@ Key columns:
 ## Objectives
 
 ### Step 1: Query Extraction & Execution
-1. Call your internal NLP parser to isolate structured fields from the user's latest incoming message into a JSON filter object.
-2. Check if the server is running using `curl -I http://localhost:3000`. If server is not running, start up the server using the following command: `node scripts\server.js`.
-3. Formulate and execute the cURL command targeting the long-running Express server.
+1. Check if the server is running using `curl -I http://localhost:3000/api/search`. If server is offline, start it the server using `node scripts/server.js` and wait for it to successfully boot before proceeding.
+2. Call your internal NLP parser to isolate structured fields from the user's latest incoming message into a JSON filter object.
+3. Formulate and execute the cURL command targeting the Express server enpoint.
 
 #### Express Endpoint Execution
 
 * **Arguments:**
-  * `USER_ID`: (Required) String containing the user's identifier (e.g., their WhatsApp ID or phone number) to track their `conversationStep` state machine.
-  * `FILTER_JSON`: (Required) The extracted JSON filter keys from the NLP parser. Pass an empty object `{}` if no new criteria were found in the current turn.
+  * `USER_ID`: (Required) String. The user's identifier (e.g., their WhatsApp ID or phone number) used by the backend to track their `conversationStep` state.
+  * `FILTER_JSON`: (Required) The extracted JSON filter keys from the NLP parser for the current turn. Pass an empty object `{}` if no new criteria were found in the current turn.
   * `PAGE_NUMBER`: (Optional) Integer. Defaults to `1`.
   * `LIMIT`: (Optional) Integer. Defaults to `10`.
 
@@ -82,7 +82,7 @@ Key columns:
   ```bash
   curl -s -X POST http://localhost:3000/api/search \
     -H "Content-Type: application/json" \
-    -d '{"userId": "[USER_ID]", "incomingFilters": [FILTER_JSON], "pageNum": [PAGE_NUMBER], "limit": [LIMIT]}'
+    -d '{"userId": "<USER_ID>", "incomingFilters": <FILTER_JSON>, "pageNum": <PAGE_NUMBER>, "limit": <LIMIT>}'
 
 ---
 

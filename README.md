@@ -4,10 +4,11 @@ The project is meant for the IDX Exchange 12-week NLP internship. The objective 
 
 This system will be capable of real-time MLS property search, market analytics, semantic recommendations, RAG knowledge retrieval, and WhatsApp + email communication. All powered by OpenClaw.
 
-Setup:
+Tools & Frameworks used:
 - OpenClaw
-- Gemini/Gemma 4
+- Gemma 4
 - MySQL
+- Express.js
 
 
 # Progress
@@ -15,4 +16,4 @@ Setup:
 - Week 1 - Devised and documentated workflow diagram of how user queries flow from WhatsApp through OpenClaw skills to MLS diagram. Successfully ran test skill using test tool provided in handbook.
 - Week 2 - Built and successfully test NLP Parser against 20 test queries. Was able to successfully get a NLP Parser response back from the Agent via WhatsApp.
 - Week 3 - Built a functional MLS Search that acceps NLP filter objects from Week 2, queries rets_property and/or california_sold, and returns formatted property cards.
-- Week 4 - TBA
+- Week 4 - Build a functional conversational property search agent, where the agent ask follow-up questions, remembers preferences in sessions, refines search query, and returns rets_property results with address, price, beds/baths, and photo count.

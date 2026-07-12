@@ -104,20 +104,24 @@ export async function searchActiveListings(filters: PropertyFilters, page = 1, l
 }
 
 export async function search(userId: string, incomingFilters: any, pageNum: number, limit: number) {
+
+        // Filters out any null or blank values to ensure we are updating only fields in the current turn.
         const extractedFields = Object.fromEntries(
             Object.entries(incomingFilters || {}).filter(
                 ([_, value]) => value !== undefined && value !== null && value !== ""
                 )
             );
 
-        console.log(`Extracted Fields: ${JSON.stringify(extractedFields, null, 2)}`)
+        // console.log(`Extracted Fields: ${JSON.stringify(extractedFields, null, 2)}`);
+        
+        //Update the session to include the new extracted fields and set our current sessions.
         updateSession(userId, extractedFields);
-
         const activeSession = getSession(userId);
 
-        console.log(`Current User Id: ${userId}`);
-        console.log(`Current Session: ${JSON.stringify(activeSession, null, 2)}`);            
+        // console.log(`Current User Id: ${userId}`);
+        // console.log(`Current Session: ${JSON.stringify(activeSession, null, 2)}`);            
 
+        // Check if it's missing these fields. If it is, prompt the user for more info and set the status to NEED_INFO.
         const steps: ConversationStep[] = [
             { field: 'city', step: 0, prompt: 'Which city are you looking to find homes in?' },
             { field: 'maxPrice', step: 1, prompt: 'What is your maximum budget for this property?' },
@@ -131,13 +135,15 @@ export async function search(userId: string, incomingFilters: any, pageNum: numb
             updateSession(userId, { conversationStep: missingStep.step });
             return {
                 status: "NEED_INFO",
-                missingField: "city",
-                prompt: "Which city are you looking to find homes in?"                    
+                missingField: missingStep.field,
+                prompt: missingStep.prompt                    
             };
         }
 
+        // Retrieve the results by calling SQL to query the rets_property table.
         const results = await searchActiveListings(activeSession as PropertyFilters, Number(pageNum), Number(limit));
             
+        // Update our session and set our last results. Return a SUCCESS response.
         updateSession(userId, { 
             conversationStep: 4, 
             lastResults: results 
@@ -151,72 +157,3 @@ export async function search(userId: string, incomingFilters: any, pageNum: numb
             data: results
         };
 }
-
-// const app = express();
-// app.use(express.json()); // Allows parsing JSON bodies
-
-// app.post("/api/search", async (req, res) => {
-//     try {
-//         const { userId, incomingFilters, pageNum = 1, limit = 10 } = req.body;
-
-//         if (!userId) {
-//             return res.status(400).json({ error: "Missing required userId parameter." });
-//         }
-
-//         const extractedFields = Object.fromEntries(
-//             Object.entries(incomingFilters || {}).filter(
-//                 ([_, value]) => value !== undefined && value !== null && value !== ""
-//                 )
-//             );
-
-//         console.log(`Extracted Fields: ${JSON.stringify(extractedFields, null, 2)}`)
-//         updateSession(userId, extractedFields);
-
-//         const activeSession = getSession(userId);
-
-//         console.log(`Current User Id: ${userId}`);
-//         console.log(`Current Session: ${JSON.stringify(activeSession, null, 2)}`);            
-
-//         const steps: ConversationStep[] = [
-//             { field: 'city', step: 0, prompt: 'Which city are you looking to find homes in?' },
-//             { field: 'maxPrice', step: 1, prompt: 'What is your maximum budget for this property?' },
-//             { field: 'beds', step: 2, prompt: 'How many bedrooms do you need?' },
-//             { field: 'type', step: 3, prompt: 'What type of property are you looking for? (e.g., House, Condo, Townhouse)' }
-//         ];
-
-//         const missingStep = steps.find(s => !activeSession?.[s.field]);
-
-//         if(missingStep){
-//             updateSession(userId, { conversationStep: missingStep.step });
-//             return res.json({
-//                 status: "NEED_INFO",
-//                 missingField: "city",
-//                 prompt: "Which city are you looking to find homes in?"                    
-//             })
-//         }
-
-//         const results = await searchActiveListings(activeSession as PropertyFilters, Number(pageNum), Number(limit));
-            
-//         updateSession(userId, { 
-//             conversationStep: 4, 
-//             lastResults: results 
-//         });
-
-//         console.table(results, ['L_Address', 'L_City', 'L_Zip', 'price', 'beds', 'baths', 'sqft', 'type', 'lat', 'lng', 'YearBuilt', 'AssociationFee', 'DaysOnMarket', 'PhotoCount']);
-
-//         return res.json({
-//             status: "SUCCESS",
-//             count: results.length,
-//             data: results
-//         });
-
-//     } catch (error) {
-//         console.error("Error processing request:", error);
-//         return res.status(500).json({ error: "Internal server error" });
-//     }
-// });
-
-// const PORT = 3000;
-// app.listen(PORT, () => {
-//     console.log(`MLS Search Service running continuously on http://localhost:${PORT}`);
-// });
