@@ -104,6 +104,9 @@ export async function searchActiveListings(filters: PropertyFilters, page = 1, l
 }
 
 export async function search(userId: string, incomingFilters: any, pageNum: number, limit: number) {
+        if (!userId){
+            return "UserId is missing!"
+        }
 
         // Filters out any null or blank values to ensure we are updating only fields in the current turn.
         const extractedFields = Object.fromEntries(

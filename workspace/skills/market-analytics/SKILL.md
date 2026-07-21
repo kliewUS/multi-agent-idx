@@ -84,13 +84,23 @@ Key columns:
 
 Parse the text or dataframe output returned by the script execution. Synthesize the raw metrics to directly answer the user's strategic question with a clean markdown summary. 
 
-Your response must prominently feature the following data points derived from the script:
+### Handling Standard Results
+When data is present, your response must prominently feature:
 * **Median Price:** The middle sale price point for the designated period.
 * **Days on Market (DOM):** Average or median velocity of inventory.
 * **List-to-Close Ratio:** The average percentage of asking price achieved (calculated from `ClosePrice` vs `ListPrice`).
 * **Market Trend Line:** 
   * If $\ge$ 12 months of data is present, provide a **12-Month Trend** analysis showing the month-over-month trajectory.
   * If data is limited (less than 12 months), provide a **Short-Term Trend** utilizing all available remaining months (e.g., *"3-Month Trend"* or *"6-Month Trend"*). Explicitly state the reduced timeframe to the user to maintain data transparency. Do not attempt to extrapolate or hallucinate missing months.
+
+### Handling "No Data Found" Edge Cases
+If the script returns an empty dataset or zero matching records:
+1. **State the Result Clearly:** Explicitly inform the user that no historical transaction data was found for the specified city and timeframe.
+2. **Do Not Hallucinate Metrics:** Never fabricate prices, DOM, or trends when data is absent.
+3. **Actionable Next Steps:** 
+   * Check if the city name might be misspelled or overly specific (e.g., neighborhood vs. official city).
+   * Suggest broadening the lookback window (e.g., expanding from 6 months to 24 months).
+   * Propose querying neighboring major cities or the broader county area.
 
 Provide a definitive conclusion or market temperature assessment (e.g., Buyer's vs. Seller's market) based on these metrics to directly resolve high-level questions like "Is it a good time to buy?".
 
