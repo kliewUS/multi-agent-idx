@@ -11,6 +11,9 @@ engine = create_engine(
 # Note that the oldest close date is 2025-12-16 and the latest close date is 2026-06-15, barring some outliers.
 # This means only up to 6 months can seen due to the data in the california_sold.
 def get_price_trend(city: str, months: int = 24):
+    if not city:
+        return "Please provide city name."
+
     query = """
         SELECT
             DATE_FORMAT(CloseDate, "%Y-%m") AS month,
@@ -34,7 +37,9 @@ if len(sys.argv) > 1:
     city = sys.argv[1]
     months = sys.argv[2] if len(sys.argv) == 3 else 24
 
-    print(get_price_trend(city=city, months=months))
+    results = get_price_trend(city=city, months=months)
 
-else:
-    print("Please provide city name.")
+    if len(results) == 0:
+        print("No results found.")
+    else:
+        print(results)
