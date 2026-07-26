@@ -7,6 +7,8 @@ This system will be capable of real-time MLS property search, market analytics, 
 Tools & Frameworks used:
 - OpenClaw
 - Gemini/Gemma
+- EmbeddingGemma
+- ChromaDB
 - MySQL
 - Express.js
 
@@ -17,4 +19,5 @@ Tools & Frameworks used:
 - Week 2 - Built and successfully test NLP Parser against 20 test queries. Was able to successfully get a NLP Parser response back from the Agent via WhatsApp.
 - Week 3 - Built a functional MLS Search that acceps NLP filter objects from Week 2, queries rets_property and/or california_sold, and returns formatted property cards.
 - Week 4 - Build a functional conversational property search agent, where the agent ask follow-up questions, remembers preferences in sessions, refines search query, and returns rets_property results with address, price, beds/baths, and photo count.
-- Week 5 - Built a market analytics engine that answers questions such as "Is now a good time to buy in San Diego?" or "What is the average price per sq ft in Pasadena?" by sending SQL queries to california_sold table via Python and returns data-backd summaries with median price, DOM, list-to-close ratio, and month-to-month trend for any California city.
+- Week 5 - Built a market analytics engine that answers questions such as "Is now a good time to buy in San Diego?" or "What is the average price per sq ft in Pasadena?" by sending SQL queries to california_sold table via Python and returns data-backed summaries with median price, DOM, list-to-close ratio, and month-to-month trend for any California city.
+- Week 6 - Built a semantic search agent that use EmbeddingGemma to find semantically similar properties, such that a query like "charming craftsman with mountain views and character" matches relevant listings even without exact keyword overlap. Additionally, ChromaDB is used to index store the embeddings for fast retrieval and similarity search.
