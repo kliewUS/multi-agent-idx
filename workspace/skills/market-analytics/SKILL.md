@@ -4,7 +4,7 @@ description: Parses real estate market questions into geographic and temporal fi
 metadata:
   openclaw:
     requires:
-      bins: ["~/.openclaw/openclaw_env/bin/python", "curl"]
+      bins: ["python3", "curl"]
       env: ["MYSQL_HOST", "MYSQL_USER", "MYSQL_DATABASE"]
 tools: execute, read
 ---

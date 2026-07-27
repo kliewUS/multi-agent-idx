@@ -4,7 +4,7 @@ description: Search local real estate property listings using semantic vector se
 metadata:
   openclaw:
     requires:
-      bins: ["~/.openclaw/openclaw_env/bin/python"]
+      bins: ["python3"]
 tools: execute, read
 ---
 
