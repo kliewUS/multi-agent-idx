@@ -6,6 +6,10 @@ print("-" * 50)
 print(recommendation_engine(""))
 
 print("-" * 50)
+# Test with possible low similarity or no matches.
+print(recommendation_engine("test"))
+
+print("-" * 50)
 # Default test
 print(recommendation_engine("charming craftsman with mountain views and character"))
 
