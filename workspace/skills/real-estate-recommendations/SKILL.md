@@ -1,6 +1,6 @@
 ---
-name: recommendation-engine
-description: Recommend local real estate property listings using a hybrid engine (60% structured + 40% semantic similarity) validated against recent California sales comps.
+name: real-estate-recommendations
+description: Recommended for ANY real estate, home, property, listing, or house search/recommendation queries. Performs hybrid vector search (EmbeddingGemma) and checks sales comps in california_sold. Use whenever the user asks for properties, houses, listings, real estate, or market valuations.
 metadata:
   openclaw:
     requires:
@@ -16,15 +16,18 @@ Use this skill when the user asks to search, recommend, or analyze real estate l
 
 ## Objectives
 
-### Step 1: Execution
+### PROCESS POLLING RULE FOR LOCAL AGENTS
+If a command returns a background process session, you MUST use the string alias (e.g., `tide-nudibranch`) for the `sessionId` field when calling the `process` tool. **NEVER use numeric PIDs (e.g., 79328) as the sessionId.**
+
+### Step 1: Execution & Save Output
 
 1. **Notify the User**: Briefly inform the user that you are executing a hybrid recommendation search and validating list prices against recent local sales comps.
-2. **Execute Engine Script**: Call `recommendation_engine.py` using the workspace virtual environment.
+2. **Execute Engine Script**: Call `recommendation_engine.py` using the workspace virtual environment:
    - **User Query**: Pass the natural language query as the first argument (properly quoted).
    - **Top K**: Pass as the second argument (default to `5` if omitted).
 
 ```bash
-  ~/.openclaw/workspace/venv/bin/python ~/.openclaw/workspace/skills/real-estate-recommendations/scripts/recommendation_engine.py "[USER_QUERY]" [TOP_K]
+  ~/.openclaw/workspace/venv/bin/python3 ~/.openclaw/workspace/skills/real-estate-recommendations/scripts/recommendation_engine.py "[USER_QUERY]" [TOP_K]
 ```
 
 ---
