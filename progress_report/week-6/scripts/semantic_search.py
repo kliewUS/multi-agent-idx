@@ -3,7 +3,7 @@ import chromadb
 from sentence_transformers import SentenceTransformer
 
 model = SentenceTransformer("google/embeddinggemma-300m")
-chroma_client = chromadb.PersistentClient(path="./chroma_db")
+chroma_client = chromadb.PersistentClient(path="../../chroma_db")
 
 try:
     collection = chroma_client.get_collection(name="property_listings")
