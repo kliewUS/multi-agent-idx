@@ -6,7 +6,7 @@ This system will be capable of real-time MLS property search, market analytics, 
 
 Tools & Frameworks used:
 - OpenClaw
-- Gemini/Gemma
+- Gemma 4 (Ollama)
 - EmbeddingGemma
 - ChromaDB
 - MySQL
