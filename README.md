@@ -22,3 +22,8 @@ Tools & Frameworks used:
 - Week 5 - Built a market analytics engine that answers questions such as "Is now a good time to buy in San Diego?" or "What is the average price per sq ft in Pasadena?" by sending SQL queries to california_sold table via Python and returns data-backed summaries with median price, DOM, list-to-close ratio, and month-to-month trend for any California city.
 - Week 6 - Built a semantic search agent that use EmbeddingGemma to find semantically similar properties, such that a query like "charming craftsman with mountain views and character" matches relevant listings even without exact keyword overlap. Additionally, ChromaDB is used to index store the embeddings for fast retrieval and similarity search.
 - Week 7 - Built recommendation engine that recommends the top 5 similar active listings with a comp-validated price assessment sourced from california_sold data using a hybrid scoring that combines structured similarity scoring with semantic similarity. Also, updated vector database implementation to ingest all embedded rets_property data via batching. 
+- Week 8 - TBD
+- Week 9 - TBD
+- Week 10 - TBD
+- Week 11 - TBD
+- Week 12 - TBD
