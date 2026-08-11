@@ -4,7 +4,7 @@ from langchain_ollama.llms import OllamaLLM
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
-from vector_doc_db import retriever
+from scripts.vector_doc_db import retriever
 
 # test_queries = ["What columns are in california_sold?", "What does DOM mean?", "What is a list-to-close ratio?"]
 
@@ -24,7 +24,7 @@ from vector_doc_db import retriever
 def rag_invoke(query):
     if not query:
         return "Please enter a query!"
-
+    
     rag_instruction = """
         You are an expert in answering questions about real estate questions for IDXExchange, a tech company providing data-driven tools to empower real estate professionals.
         Use only the provided context to answer the user's question.

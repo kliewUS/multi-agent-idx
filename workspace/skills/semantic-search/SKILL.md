@@ -16,6 +16,9 @@ Use this skill when the user asks to find, search, or recommend real estate list
 
 ## Objectives
 
+### PROCESS POLLING RULE FOR LOCAL AGENTS
+If a command returns a background process session, you MUST use the string alias (e.g., `tide-nudibranch`) for the `sessionId` field when calling the `process` tool. **NEVER use numeric PIDs (e.g., 79328) as the sessionId.**
+
 ### Step 1: Execution
 
 1. **Notify the User**: Briefly inform the user that you are executing a local semantic search across the real estate vector database.
