@@ -1,6 +1,6 @@
 // import { getSession, updateSession, UserSession } from "../../week-4/scripts/mls_session.js";
 import { getSession, updateSession, UserSession } from "./mls_session.js";
-import { query } from "./mysql_conn.js";
+import { closeConnection, query } from "./mysql_conn.js";
 
 export interface ListingRow {
   L_ListingID: string;
@@ -10,15 +10,15 @@ export interface ListingRow {
   L_Zip: string;
   price: number;
   beds: number;
-  baths: number; //Decimal converts to string to prevent loss of precision.
+  baths: string; //Decimal converts to string to prevent loss of precision.
   sqft: number;
   type: string;
   status: string;
-  lat: number;
-  lng: number;
+  lat: string;
+  lng: string;
   YearBuilt: number;
   AssociationFee: number;
-  DaysOnMarket: string;
+  DaysOnMarket: number;
   PoolPrivateYN: string;
   ViewYN: string;
   FireplaceYN: string;
@@ -103,7 +103,7 @@ export async function searchActiveListings(filters: PropertyFilters, page = 1, l
     return query<ListingRow>(sql, params);
 }
 
-export async function search(userId: string, incomingFilters: any, pageNum: number, limit: number) {
+export async function search(userId: string, incomingFilters: any, pageNum = 1, limit = 10) {
 
         // Filters out any null or blank values to ensure we are updating only fields in the current turn.
         const extractedFields = Object.fromEntries(
@@ -133,6 +133,9 @@ export async function search(userId: string, incomingFilters: any, pageNum: numb
 
         if(missingStep){
             updateSession(userId, { conversationStep: missingStep.step });
+            // const missingSessionStep = getSession(userId);
+            // console.log(`Current User Id: ${userId}`);
+            // console.log(`Current Missing Session: ${JSON.stringify(missingSessionStep, null, 2)}`);  
             return {
                 status: "NEED_INFO",
                 missingField: missingStep.field,
@@ -149,11 +152,43 @@ export async function search(userId: string, incomingFilters: any, pageNum: numb
             lastResults: results 
         });
 
-        console.table(results, ['L_Address', 'L_City', 'L_Zip', 'price', 'beds', 'baths', 'sqft', 'type', 'lat', 'lng', 'YearBuilt', 'AssociationFee', 'DaysOnMarket', 'PhotoCount']);
+        // const currentActiveSession = getSession(userId);
+
+        // console.log(`Current User Id: ${userId}`);
+        // console.log(`Current Session: ${JSON.stringify(currentActiveSession, null, 2)}`);     
+
+        // console.table(results, ['L_Address', 'L_City', 'L_Zip', 'price', 'beds', 'baths', 'sqft', 'type', 'lat', 'lng', 'YearBuilt', 'AssociationFee', 'DaysOnMarket', 'PhotoCount']);
+
+        await closeConnection();
 
         return {
             status: "SUCCESS",
             count: results.length,
             data: results
         };
+}
+
+const userId = process.argv[2];
+const json = process.argv[3];
+const pageNum = process.argv[4] ? Number(process.argv[4]) : 1;
+const limit = process.argv[5] ? Number(process.argv[5]) : 10;
+
+let queryFilter;
+
+// console.log(json);
+
+if(userId && json){
+    try {
+        queryFilter = JSON.parse(json);
+    } catch (error){
+        if (error instanceof Error){
+            console.error("Invalue JSON string passed: ", error.message)
+        } else {
+            console.error("An unknown error occurred", error)
+        }
+    }
+
+    const results = await search(userId, queryFilter, pageNum, limit);
+    console.log(results);
+    // await closeConnection();
 }

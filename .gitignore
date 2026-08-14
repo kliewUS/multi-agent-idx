@@ -225,3 +225,6 @@ node_modules
 **/chroma_db
 **/chroma_db_rag
 **/docs
+
+sessions.json
+**/sessions.json

@@ -42,7 +42,8 @@ if len(sys.argv) > 1:
     if len(results) == 0:
         print("No results found.")
     else:
-        print(results)
+        # print(results)
+        print(results.to_dict("records"))
 
 else:
     print("Please provide city name.")

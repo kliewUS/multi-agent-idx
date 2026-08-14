@@ -59,7 +59,8 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         query = sys.argv[1]
         answer = rag_invoke(query)
-        print(f"Question: {query}")
-        print(f"Answer: {answer}\n")        
+        # print(f"Question: {query}")
+        # print(f"Answer: {answer}\n")        
+        print(answer)        
     else:
         print("Please provide a search query!")
