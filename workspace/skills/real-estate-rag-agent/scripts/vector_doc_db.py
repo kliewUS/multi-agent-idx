@@ -6,34 +6,34 @@ from langchain_chroma import Chroma
 
 embeddings = OllamaEmbeddings(model="embeddinggemma:latest")
 
-# pdf_files = ["./skills/real-estate-rag-agent/docs/Zillow_Real_Estate_Terms.pdf", 
-#              "./skills/real-estate-rag-agent/docs/realestateglossary.pdf", 
-#              "./skills/real-estate-rag-agent/docs/Total_Mortage.pdf",  
-#              "./skills/real-estate-rag-agent/docs/AI_Agentic_Engineer_Intern_Handbook_2026.pdf",
-#              "./skills/real-estate-rag-agent/docs/Real_Estate_Primer.pdf",
-#              "./skills/real-estate-rag-agent/docs/Trestle_Propety.pdf",
-#              "./skills/real-estate-rag-agent/docs/market_summary_ex.pdf",
-#              "./skills/real-estate-rag-agent/docs/mls_tables.pdf"]
+pdf_files = ["./skills/real-estate-rag-agent/docs/Zillow_Real_Estate_Terms.pdf", 
+             "./skills/real-estate-rag-agent/docs/realestateglossary.pdf", 
+             "./skills/real-estate-rag-agent/docs/Total_Mortage.pdf",  
+             "./skills/real-estate-rag-agent/docs/AI_Agentic_Engineer_Intern_Handbook_2026.pdf",
+             "./skills/real-estate-rag-agent/docs/Real_Estate_Primer.pdf",
+             "./skills/real-estate-rag-agent/docs/Trestle_Propety.pdf",
+             "./skills/real-estate-rag-agent/docs/market_summary_ex.pdf",
+             "./skills/real-estate-rag-agent/docs/mls_tables.pdf"]
 
-pdf_files = ["./workspace/skills/real-estate-rag-agent/docs/Zillow_Real_Estate_Terms.pdf", 
-             "./workspace/skills/real-estate-rag-agent/docs/realestateglossary.pdf", 
-             "./workspace/skills/real-estate-rag-agent/docs/Total_Mortage.pdf",  
-             "./workspace/skills/real-estate-rag-agent/docs/AI_Agentic_Engineer_Intern_Handbook_2026.pdf",
-             "./workspace/skills/real-estate-rag-agent/docs/Real_Estate_Primer.pdf",
-             "./workspace/skills/real-estate-rag-agent/docs/Trestle_Propety.pdf",
-             "./workspace/skills/real-estate-rag-agent/docs/market_summary_ex.pdf",
-             "./workspace/skills/real-estate-rag-agent/docs/mls_tables.pdf"]
+# pdf_files = ["./workspace/skills/real-estate-rag-agent/docs/Zillow_Real_Estate_Terms.pdf", 
+#              "./workspace/skills/real-estate-rag-agent/docs/realestateglossary.pdf", 
+#              "./workspace/skills/real-estate-rag-agent/docs/Total_Mortage.pdf",  
+#              "./workspace/skills/real-estate-rag-agent/docs/AI_Agentic_Engineer_Intern_Handbook_2026.pdf",
+#              "./workspace/skills/real-estate-rag-agent/docs/Real_Estate_Primer.pdf",
+#              "./workspace/skills/real-estate-rag-agent/docs/Trestle_Propety.pdf",
+#              "./workspace/skills/real-estate-rag-agent/docs/market_summary_ex.pdf",
+#              "./workspace/skills/real-estate-rag-agent/docs/mls_tables.pdf"]
 
 
 docs = []
 for file_path in pdf_files:
     if os.path.exists(file_path):
-        # if file_path == ("./skills/real-estate-rag-agent/docs/AI_Agentic_Engineer_Intern_Handbook_2026.pdf" 
-        #                  or "./skills/real-estate-rag-agent/docs/market_summary_ex.pdf"
-        #                  or "./skills/real-estate-rag-agent/docs/mls_tables.pdf"):
-        if file_path == ("./workspace/skills/real-estate-rag-agent/docs/AI_Agentic_Engineer_Intern_Handbook_2026.pdf" 
-                        or "./workspace/skills/real-estate-rag-agent/docs/market_summary_ex.pdf"
-                        or "./workspace/skills/real-estate-rag-agent/docs/mls_tables.pdf") :
+        if file_path == ("./skills/real-estate-rag-agent/docs/AI_Agentic_Engineer_Intern_Handbook_2026.pdf" 
+                         or "./skills/real-estate-rag-agent/docs/market_summary_ex.pdf"
+                         or "./skills/real-estate-rag-agent/docs/mls_tables.pdf"):
+        # if file_path == ("./workspace/skills/real-estate-rag-agent/docs/AI_Agentic_Engineer_Intern_Handbook_2026.pdf" 
+        #                 or "./workspace/skills/real-estate-rag-agent/docs/market_summary_ex.pdf"
+        #                 or "./workspace/skills/real-estate-rag-agent/docs/mls_tables.pdf") :
             pdf_loader = PyMuPDFLoader(file_path)
         else:
             pdf_loader = PyPDFLoader(file_path)

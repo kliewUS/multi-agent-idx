@@ -11,7 +11,8 @@ import { closeConnection } from "../../mls-search/scripts/mysql_conn.js";
 export async function classifyIntent(query) {
     // Use Ollama agent to read the query and classify it as one of the intent.
     return new Promise((res, rej) => {
-        const process = spawn('python', ['workspace/skills/orchestrator-agent/scripts/intent_query.py', query]);
+        // const process = spawn('python', ['workspace/skills/real-estate-orchestrator/scripts/intent_query.py', query]);
+        const process = spawn('/Users/kyuliew/.openclaw/workspace/venv/bin/python3', ['skills/real-estate-orchestrator/scripts/intent_query.py', query]);
         let result = '';
         process.stdout.on('data', function (data) {
             result += data.toString();
@@ -37,7 +38,8 @@ export async function marketStatsAgent(query) {
     }
     const city = parsedFilters.city;
     return new Promise((res, rej) => {
-        const process = spawn('python', ['workspace/skills/market-analytics/scripts/market_analytics.py', city]);
+        // const process = spawn('python', ['workspace/skills/market-analytics/scripts/market_analytics.py', city]);
+        const process = spawn('/Users/kyuliew/.openclaw/workspace/venv/bin/python3', ['skills/market-analytics/scripts/market_analytics.py', city]);
         let result = '';
         process.stdout.on('data', function (data) {
             result += data.toString();
@@ -56,7 +58,8 @@ export async function marketStatsAgent(query) {
 }
 export async function recommendationAgent(query) {
     return new Promise((res, rej) => {
-        const process = spawn('python', ['workspace/skills/real-estate-recommendations/scripts/recommendation_engine.py', query]);
+        // const process = spawn('python', ['workspace/skills/real-estate-recommendations/scripts/recommendation_engine.py', query]);
+        const process = spawn('/Users/kyuliew/.openclaw/workspace/venv/bin/python3', ['skills/real-estate-recommendations/scripts/recommendation_engine.py', query]);
         let result = '';
         process.stdout.on('data', function (data) {
             result += data.toString();
@@ -72,7 +75,8 @@ export async function recommendationAgent(query) {
 }
 export async function ragAgent(query) {
     return new Promise((res, rej) => {
-        const process = spawn('python', ['workspace/skills/real-estate-rag-agent/scripts/rag_agent.py', query]);
+        // const process = spawn('python', ['workspace/skills/real-estate-rag-agent/scripts/rag_agent.py', query]);
+        const process = spawn('/Users/kyuliew/.openclaw/workspace/venv/bin/python3', ['skills/real-estate-rag-agent/scripts/rag_agent.py', query]);
         let result = '';
         process.stdout.on('data', function (data) {
             result += data.toString();

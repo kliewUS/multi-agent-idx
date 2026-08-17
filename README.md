@@ -23,7 +23,7 @@ Tools & Frameworks used:
 - Week 6 - Built a semantic search agent that use EmbeddingGemma to find semantically similar properties, such that a query like "charming craftsman with mountain views and character" matches relevant listings even without exact keyword overlap. Additionally, ChromaDB is used to index store the embeddings for fast retrieval and similarity search.
 - Week 7 - Built recommendation engine that recommends the top 5 similar active listings with a comp-validated price assessment sourced from california_sold data using a hybrid scoring that combines structured similarity scoring with semantic similarity. Also, updated vector database implementation to ingest all embedded rets_property data via batching. 
 - Week 8 - Built a document-aware RAG assistant that can answer questions about real estate concepts, MLS field definitions, and market terminology — grounding its answers in authoritative source documents.
-- Week 9 - TBD
+- Week 9 - Built a single intelligent coordinator that analyzes each incoming query and routes to a approripate agent or splits it across multiple agents to produce a comprehensive, unifed response.
 - Week 10 - TBD
 - Week 11 - TBD
 - Week 12 - TBD
