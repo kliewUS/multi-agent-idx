@@ -25,10 +25,7 @@ def invoke_intent_classification(query):
         IntentClassification,
         method="json_schema" 
     )
-    # three additional intents: email_draft, email_approve, email_deny
-    # "email_draft": Draft up an email based on listing alerts and market report.
-    # "email_approve": Approve the draft and send it to target address (Myself).
-    # "email_deny": Deny the draft and delete it in the userId session.
+
     prompt = ChatPromptTemplate.from_messages([
         (
             "system",
