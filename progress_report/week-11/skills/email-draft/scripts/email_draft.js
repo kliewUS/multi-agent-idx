@@ -32,7 +32,7 @@ if (import.meta.main) {
             body = body.concat(`Property Listings Report for ${session.city}:\n${listings}`);
         }
         if (resultStats) {
-            const stats = resultStats.slice(0, 6).map((l) => `${l.month}: ${l.sales} sales\n` + `Average Price: $${l.avg_price.toLocaleString()} | Average Price/sqft: $${l.avg_price_per_sqft}/sqft | Average DOM: ${l.avg_dom}\n`
+            const stats = resultStats.slice(0, 6).map((l) => `${l.month}: ${l.sales} sales\n` + `Average Price: $${l.avg_price.toLocaleString()} | Average Price/sqft: $${l.avg_price_per_sqft.toLocaleString()}/sqft | Average DOM: ${l.avg_dom}\n`
                 + `List-to-Close Percentage: ${l.list_to_close_pct}% | Price Change Percentage: ${l.price_change_pct.toFixed(2)}%`).join("\n\n");
             if (result) {
                 body = body.concat(`\n\nMarket Report for ${session.city}:\n${stats}`);

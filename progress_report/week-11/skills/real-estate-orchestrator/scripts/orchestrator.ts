@@ -33,8 +33,8 @@ export interface MarketRow {
 export async function classifyIntent(query: string) {
     // Use Ollama agent to read the query and classify it as one of the intent.
     return new Promise((res, rej) => {
-        // const process = spawn('python', ['workspace/skills/real-estate-orchestrator/scripts/intent_query.py', query]);
-        const process = spawn('/Users/kyuliew/.openclaw/workspace/venv/bin/python3', ['skills/real-estate-orchestrator/scripts/intent_query.py', query]);
+        const process = spawn('python', ['progress_report/week-11/skills/real-estate-orchestrator/scripts/intent_query.py', query]);
+        // const process = spawn('/Users/kyuliew/.openclaw/workspace/venv/bin/python3', ['skills/real-estate-orchestrator/scripts/intent_query.py', query]);
 
         let result = ''
         process.stdout.on('data', function(data) {
@@ -67,8 +67,8 @@ export async function marketStatsAgent(query: string) { //Figure out a way to co
     const city = parsedFilters.city;
     
     return new Promise((res, rej) => {
-        // const process = spawn('python', ['workspace/skills/market-analytics/scripts/market_analytics.py', city]);
-        const process = spawn('/Users/kyuliew/.openclaw/workspace/venv/bin/python3', ['skills/market-analytics/scripts/market_analytics.py', city]);
+        const process = spawn('python', ['progress_report/week-11/skills/market-analytics/scripts/market_analytics.py', city]);
+        // const process = spawn('/Users/kyuliew/.openclaw/workspace/venv/bin/python3', ['skills/market-analytics/scripts/market_analytics.py', city]);
 
         let result = ''
         process.stdout.on('data', function(data) {
@@ -89,8 +89,8 @@ export async function marketStatsAgent(query: string) { //Figure out a way to co
 
 export async function recommendationAgent(query: string) { //Find a way to clean up the output "+" and "\n"
     return new Promise((res, rej) => {
-        // const process = spawn('python', ['workspace/skills/real-estate-recommendations/scripts/recommendation_engine.py', query]);
-        const process = spawn('/Users/kyuliew/.openclaw/workspace/venv/bin/python3', ['skills/real-estate-recommendations/scripts/recommendation_engine.py', query]);
+        const process = spawn('python', ['progress_report/week-11/skills/real-estate-recommendations/scripts/recommendation_engine.py', query]);
+        // const process = spawn('/Users/kyuliew/.openclaw/workspace/venv/bin/python3', ['skills/real-estate-recommendations/scripts/recommendation_engine.py', query]);
 
         let result = ''
         process.stdout.on('data', function(data) {
@@ -107,8 +107,8 @@ export async function recommendationAgent(query: string) { //Find a way to clean
 
 export async function ragAgent(query: string) {
     return new Promise((res, rej) => {
-        // const process = spawn('python', ['workspace/skills/real-estate-rag-agent/scripts/rag_agent.py', query]);
-        const process = spawn('/Users/kyuliew/.openclaw/workspace/venv/bin/python3', ['skills/real-estate-rag-agent/scripts/rag_agent.py', query]);
+        const process = spawn('python', ['progress_report/week-11/skills/real-estate-rag-agent/scripts/rag_agent.py', query]);
+        // const process = spawn('/Users/kyuliew/.openclaw/workspace/venv/bin/python3', ['skills/real-estate-rag-agent/scripts/rag_agent.py', query]);
 
         let result = ''
         process.stdout.on('data', function(data) {

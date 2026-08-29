@@ -36,6 +36,9 @@ function formatForWhatsApp(result) {
             return stats;
         }
     }
+    if (result.draft) {
+        return `${result.response}\n\n${result.draft}`;
+    }
     return result.response;
 }
 if (import.meta.main) {
