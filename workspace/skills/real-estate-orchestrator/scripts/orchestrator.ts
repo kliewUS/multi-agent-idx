@@ -185,7 +185,6 @@ export async function emailApproveAgent(userId: string) {
     }
 }
 
-// Find a better way to format this response. Also don't stringify JSON for the interface.
 export async function formatCombinedResponse(userId: string, listing: any, stats: any) {
     const res: AgentResult = { response: "" };
 
@@ -234,7 +233,6 @@ export function convertListingQuery(listing: ListingRow) {
 }
 
 export async function orchestrate(query: string, userId: string)  {
-// export async function orchestrate(query: string, userId: string): AgentResult  {
      if(!userId || !query){
         return { response: "No userId and/or query was provided! Please provide a userId and/or query!" };
      }
@@ -250,8 +248,7 @@ export async function orchestrate(query: string, userId: string)  {
             } else if (search_res.data === undefined || search_res.data.length == 0) {
                 return { response: "No property search results were found! Please try another search query." };
             } else {
-                // return { response: JSON.stringify(search_res.data) }; //Change this, so we always have a response field and listing goest in separate kv pair.
-                return { response: "Success", listings: search_res.data }; //Change this, so we always have a response field and listing goest in separate kv pair.
+                return { response: "Success", listings: search_res.data }; 
             }
 
         case "market":
@@ -263,8 +260,7 @@ export async function orchestrate(query: string, userId: string)  {
                 return { response: market_res };
             }
             updateSession(userId, {lastMarketResults: JSON.parse(market_res as string)});
-            // return { response: market_res }; //Change this, so that stats goes in separa kv pair.
-            return { response: "Success", stats: JSON.parse(market_res as string) }; //Change this, so that stats goes in separa kv pair. Make sure to parse the df result as JSON.
+            return { response: "Success", stats: JSON.parse(market_res as string) }; 
         case "recommend": 
             const session = getSession(userId);
             if (session.lastResults && session.lastResults.length > 0) {
@@ -296,7 +292,7 @@ export async function orchestrate(query: string, userId: string)  {
                 listing_res = listings.data;
             }
 
-            const combined = formatCombinedResponse(userId, listing_res, stats); //Reformat response format to match with other agents.
+            const combined = formatCombinedResponse(userId, listing_res, stats); 
 
             return combined;
         }
@@ -314,12 +310,9 @@ export async function orchestrate(query: string, userId: string)  {
     }
 }
 
-// May not be needed, since we have the interface. But keep it around just in case.
 if (import.meta.main) {
     const userId = process.argv[2];
     const query = process.argv[3];
-    // const limit = process.argv[4] ? Number(process.argv[4]) : 10;
-    // const pageNum = process.argv[5] ? Number(process.argv[5]) : 1;
 
     if(userId && query){
         const results = await orchestrate(query, userId);

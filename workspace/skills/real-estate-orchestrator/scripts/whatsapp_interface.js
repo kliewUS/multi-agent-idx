@@ -44,8 +44,6 @@ function formatForWhatsApp(result) {
 if (import.meta.main) {
     const userId = process.argv[2];
     const query = process.argv[3];
-    // const limit = process.argv[4] ? Number(process.argv[4]) : 10;
-    // const pageNum = process.argv[5] ? Number(process.argv[5]) : 1;
     if (userId && query) {
         const results = await onWhatsAppMessage(query, userId);
         console.log(results);

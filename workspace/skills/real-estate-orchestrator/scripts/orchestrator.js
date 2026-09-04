@@ -13,8 +13,8 @@ import { draftEmail, sendApprovedEmail } from "../../email-draft/scripts/email_d
 export async function classifyIntent(query) {
     // Use Ollama agent to read the query and classify it as one of the intent.
     return new Promise((res, rej) => {
-        const process = spawn('python', ['workspace/skills/real-estate-orchestrator/scripts/intent_query.py', query]);
-        // const process = spawn('/Users/kyuliew/.openclaw/workspace/venv/bin/python3', ['skills/real-estate-orchestrator/scripts/intent_query.py', query]);
+        // const process = spawn('python', ['workspace/skills/real-estate-orchestrator/scripts/intent_query.py', query]);
+        const process = spawn('/Users/kyuliew/.openclaw/workspace/venv/bin/python3', ['skills/real-estate-orchestrator/scripts/intent_query.py', query]);
         let result = '';
         process.stdout.on('data', function (data) {
             result += data.toString();
@@ -40,8 +40,8 @@ export async function marketStatsAgent(query) {
     }
     const city = parsedFilters.city;
     return new Promise((res, rej) => {
-        const process = spawn('python', ['workspace/skills/market-analytics/scripts/market_analytics.py', city]);
-        // const process = spawn('/Users/kyuliew/.openclaw/workspace/venv/bin/python3', ['skills/market-analytics/scripts/market_analytics.py', city]);
+        // const process = spawn('python', ['workspace/skills/market-analytics/scripts/market_analytics.py', city]);
+        const process = spawn('/Users/kyuliew/.openclaw/workspace/venv/bin/python3', ['skills/market-analytics/scripts/market_analytics.py', city]);
         let result = '';
         process.stdout.on('data', function (data) {
             result += data.toString();
@@ -145,7 +145,6 @@ export async function emailApproveAgent(userId) {
         return { response: "You do not have a pending draft to approve. Try drafting an email first." };
     }
 }
-// Find a better way to format this response. Also don't stringify JSON for the interface.
 export async function formatCombinedResponse(userId, listing, stats) {
     const res = { response: "" };
     if (typeof listing == "string"
@@ -192,7 +191,6 @@ export function convertListingQuery(listing) {
     ].filter(Boolean).join(' ');
 }
 export async function orchestrate(query, userId) {
-    // export async function orchestrate(query: string, userId: string): AgentResult  {
     if (!userId || !query) {
         return { response: "No userId and/or query was provided! Please provide a userId and/or query!" };
     }
@@ -207,8 +205,7 @@ export async function orchestrate(query, userId) {
                 return { response: "No property search results were found! Please try another search query." };
             }
             else {
-                // return { response: JSON.stringify(search_res.data) }; //Change this, so we always have a response field and listing goest in separate kv pair.
-                return { response: "Success", listings: search_res.data }; //Change this, so we always have a response field and listing goest in separate kv pair.
+                return { response: "Success", listings: search_res.data };
             }
         case "market":
             const market_res = await marketStatsAgent(query);
@@ -218,8 +215,7 @@ export async function orchestrate(query, userId) {
                 return { response: market_res };
             }
             updateSession(userId, { lastMarketResults: JSON.parse(market_res) });
-            // return { response: market_res }; //Change this, so that stats goes in separa kv pair.
-            return { response: "Success", stats: JSON.parse(market_res) }; //Change this, so that stats goes in separa kv pair. Make sure to parse the df result as JSON.
+            return { response: "Success", stats: JSON.parse(market_res) };
         case "recommend":
             const session = getSession(userId);
             if (session.lastResults && session.lastResults.length > 0) {
@@ -248,7 +244,7 @@ export async function orchestrate(query, userId) {
             else {
                 listing_res = listings.data;
             }
-            const combined = formatCombinedResponse(userId, listing_res, stats); //Reformat response format to match with other agents.
+            const combined = formatCombinedResponse(userId, listing_res, stats);
             return combined;
         }
         case "email_draft":
@@ -264,12 +260,9 @@ export async function orchestrate(query, userId) {
             return { response: "I'm not sure how to help with that. Try asking about properties or market trends." };
     }
 }
-// May not be needed, since we have the interface. But keep it around just in case.
 if (import.meta.main) {
     const userId = process.argv[2];
     const query = process.argv[3];
-    // const limit = process.argv[4] ? Number(process.argv[4]) : 10;
-    // const pageNum = process.argv[5] ? Number(process.argv[5]) : 1;
     if (userId && query) {
         const results = await orchestrate(query, userId);
         console.log(results);

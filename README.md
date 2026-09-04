@@ -1,10 +1,25 @@
-# Multi-Agent AI
+# IDX Multi-Agentic Real Estate AI Agent
 
-The project is meant for the IDX Exchange 12-week NLP internship. The objective is to build a production multi-agent AI assistant for real estate listing using MLS data.
+Built and design a production multi-agent AI assistant for real estate listing using MLS data for the IDX Exchange 12-week NLP internship. 
+Powered by OpenClaw, WhatsApp, and Ollama A user is able to send free-text queries via WhatsApp, letting OpenClaw and Ollama query the user's intent to route it the approriate sub-agent.
 
-This system will be capable of real-time MLS property search, market analytics, semantic recommendations, RAG knowledge retrieval, and WhatsApp + email communication. All powered by OpenClaw.
+This Agentic AI is capable of doing the following:
+- Real-time MLS property search and market analytics over real-world MLS records (rets_property + california_sold)
+- Conversation session memory, remembers conversation steps, last listing and property results, and draft + draft status.
+- Semantic + recommendation Engine to perform a search for semantic similarly listings and validating these listings using sold comps.
+- Retrieval augmented generation to answer relevant real estate questions, grounded by documents in the vector database.
+- Email draft-and-approve functionality for property and market listings. Shows draft first before explicit approval by user.
 
-Tools & Frameworks used:
+# Architecture Diagram
+![Architecture Diagram](progress_report/week-12/final_documentations/Week_12_Arch_Diagram.png)
+
+# Backup Demo Videos
+- [Architecture Diagram](https://www.youtube.com/watch?v=VumxzKd-ntA)
+- [Coding Implementation](https://www.youtube.com/watch?v=vZGsuPGMw-E)
+- [Testing Suite](https://www.youtube.com/watch?v=8Z85XhEwEks)
+- [WhatsApp Demo](https://www.youtube.com/watch?v=arpq5C3C_Sk)
+
+# Tools & Frameworks used
 - Python
 - Typescript/Javascript
 - OpenClaw
@@ -28,4 +43,4 @@ Tools & Frameworks used:
 - Week 9 - Built a single intelligent coordinator that analyzes each incoming query and routes to a approripate agent or splits it across multiple agents to produce a comprehensive, unifed response.
 - Week 10 - Built end-to-end WhatsApp assistant handling, property search, market questions, recommendations, RAG, and mixed intent with clean formatted questions.
 - Week 11 - Built an email agent for listing alerts, market reports, and property summaries with strict human-approval guardrails so no email is ever sent autonomously without explicit confirmation.
-- Week 12 - TBD
+- Week 12 - Drawn final architecture diagram, written schema annotation and project reflection and recorded backup demo videos.
