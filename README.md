@@ -13,6 +13,9 @@ This Agentic AI is capable of doing the following:
 # Architecture Diagram
 ![Architecture Diagram](progress_report/week-12/final_documentations/Week_12_Arch_Diagram.png)
 
+# Schema Annotation and Written Reflection
+[Document Link](progress_report/week-12/final_documentations/Week%2012%20Final%20Document%20(Architecture%20Diagram,%20Schema%20Annotation,%20and%20Reflection).pdf)
+
 # Backup Demo Videos
 - [Architecture Diagram](https://www.youtube.com/watch?v=VumxzKd-ntA)
 - [Coding Implementation](https://www.youtube.com/watch?v=vZGsuPGMw-E)
